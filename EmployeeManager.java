@@ -5,8 +5,6 @@ import java.util.*;
 
 public class EmployeeManager {
 
-    private static final String FILE_NAME = "employees.txt";
-
     public static void main(String[] args) {
 
         // Check arguments
@@ -33,9 +31,10 @@ public class EmployeeManager {
             System.out.println("Loading data ...");
 
             try {
-                String[] employees = readEmployees();
+                String line = readEmployeeLine();
+                String[] employees = line.split(",");
 
-                System.out.println(String.join(",", employees));
+                System.out.println(line);
 
                 Random random = new Random();
                 int index = random.nextInt(employees.length);
@@ -149,7 +148,7 @@ public class EmployeeManager {
     private static String readEmployeeLine() throws IOException {
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(
-                        new FileInputStream(FILE_NAME)));
+                        new FileInputStream(Constants.FILE_NAME)));
 
         String line = reader.readLine();
         reader.close();
@@ -159,7 +158,7 @@ public class EmployeeManager {
 
     private static void writeEmployees(String[] employees) throws IOException {
         BufferedWriter writer = new BufferedWriter(
-                new FileWriter(FILE_NAME));
+                new FileWriter(Constants.FILE_NAME));
 
         writer.write(String.join(",", employees));
         writer.close();
@@ -167,10 +166,9 @@ public class EmployeeManager {
 
     private static void appendEmployee(String name) throws IOException {
         BufferedWriter writer = new BufferedWriter(
-                new FileWriter(FILE_NAME, true));
+                new FileWriter(Constants.FILE_NAME, true));
 
         writer.write(", " + name);
         writer.close();
     }
 }
-
